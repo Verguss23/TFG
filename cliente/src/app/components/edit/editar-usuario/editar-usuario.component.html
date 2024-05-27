@@ -1,0 +1,26 @@
+<div class="container">
+  <h2>{{ titulo | uppercase }}</h2>
+    <form [formGroup]="usuarioForm" (ngSubmit)="agregarUsuario()">
+      <div class="form-group">
+        <label for="username">Nombre de Usuario:</label>
+        <input type="text" class="form-control" id="username" formControlName="username" placeholder="Ingrese el nombre de usuario" required>
+        <div class="text-danger"
+          *ngIf="usuarioForm.get('username')?.hasError('required') && usuarioForm.get('username')?.touched">
+          <span>El nombre del usuario <strong>es obligatorio</strong></span>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="password">Contraseña:</label>
+        <input type="password" class="form-control" id="password" formControlName="password" placeholder="Ingrese la contraseña" required>
+        <div class="text-danger"
+          *ngIf="usuarioForm.get('password')?.hasError('required') && usuarioForm.get('password')?.touched">
+          <span>El contacto del proveedor <strong>es obligatorio</strong></span>
+        </div>
+      </div>
+      <button type="submit" class="btn btn-primary" [disabled]="usuarioForm.invalid">Guardar Cambios</button>
+      <button routerLink="/configuracion" class="btn btn-secondary btn-lg float-start">VOLVER</button>
+    </form>
+  </div>
+  
+
+

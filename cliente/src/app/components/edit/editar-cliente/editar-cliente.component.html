@@ -1,0 +1,34 @@
+<div class="container">
+  <h2>{{ titulo | uppercase }}</h2>
+    <form [formGroup]="clienteForm" (ngSubmit)="agregarCliente()">
+      <div class="form-group">
+        <label for="nombre">Nombre:</label>
+        <input type="text" class="form-control" id="nombre" formControlName="nombre" placeholder="Ingrese el nombre del cliente" required>
+        <div class="text-danger"
+          *ngIf="clienteForm.get('nombre')?.hasError('required') && clienteForm.get('nombre')?.touched">
+          <span>El nombre del cliente <strong>es obligatorio</strong></span>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="contacto">Contacto:</label>
+        <input type="email" class="form-control" id="email" formControlName="email" placeholder="Ingrese el correo electrónico del cliente" required>
+        <div class="text-danger"
+          *ngIf="clienteForm.get('contacto')?.hasError('required') && clienteForm.get('contacto')?.touched">
+          <span>El correo electrónico del cliente <strong>es obligatorio</strong></span>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="telefono">Teléfono:</label>
+        <input type="text" class="form-control" id="telefono" formControlName="telefono" placeholder="Ingrese el teléfono del cliente" required>
+        <div class="text-danger"
+          *ngIf="clienteForm.get('telefono')?.hasError('required') && clienteForm.get('telefono')?.touched">
+          <span>El teléfono del cliente <strong>es obligatorio</strong></span>
+        </div>
+      </div>
+      <button type="submit" class="btn btn-primary" [disabled]="clienteForm.invalid">Guardar Cambios</button>
+      <button routerLink="/gestion-clientes" class="btn btn-secondary btn-lg float-start">VOLVER</button>
+    </form>
+  </div>
+  
+
+

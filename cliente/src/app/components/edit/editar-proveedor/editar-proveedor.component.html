@@ -1,0 +1,33 @@
+<div class="container">
+  <h2>{{ titulo | uppercase }}</h2>
+    <form [formGroup]="proveedorForm" (ngSubmit)="agregarProveedor()">
+      <div class="form-group">
+        <label for="nombre">Nombre:</label>
+        <input type="text" class="form-control" id="nombre" formControlName="nombre" placeholder="Ingrese el nombre del proveedor" required>
+        <div class="text-danger"
+          *ngIf="proveedorForm.get('nombre')?.hasError('required') && proveedorForm.get('nombre')?.touched">
+          <span>El nombre del proveedor <strong>es obligatorio</strong></span>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="contacto">Contacto:</label>
+        <input type="text" class="form-control" id="contacto" formControlName="contacto" placeholder="Ingrese el contacto del proveedor" required>
+        <div class="text-danger"
+          *ngIf="proveedorForm.get('contacto')?.hasError('required') && proveedorForm.get('contacto')?.touched">
+          <span>El contacto del proveedor <strong>es obligatorio</strong></span>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="telefono">Teléfono:</label>
+        <input type="text" class="form-control" id="telefono" formControlName="telefono" placeholder="Ingrese el teléfono del proveedor" required>
+        <div class="text-danger"
+          *ngIf="proveedorForm.get('telefono')?.hasError('required') && proveedorForm.get('telefono')?.touched">
+          <span>El teléfono del proveedor <strong>es obligatorio</strong></span>
+        </div>
+      </div>
+      <button type="submit" class="btn btn-primary" [disabled]="proveedorForm.invalid">Guardar Cambios</button>
+      <button routerLink="/gestion-proveedores" class="btn btn-secondary btn-lg float-start">VOLVER</button>
+    </form>
+  </div>
+  
+

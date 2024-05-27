@@ -1,0 +1,32 @@
+<div class="container">
+  <h2>{{ titulo | uppercase }}</h2>
+    <form [formGroup]="ingresoForm" (ngSubmit)="agregarIngreso()">
+      <div class="form-group">
+        <label for="monto">Monto:</label>
+        <input type="number" class="form-control" id="monto" formControlName="monto" placeholder="Ingrese el monto del gasto" required>
+        <div class="text-danger"
+          *ngIf="ingresoForm.get('monto')?.hasError('required') && ingresoForm.get('monto')?.touched">
+          <span>La cantidad del monto <strong>es obligatoria</strong></span>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="descripcion">Descripción:</label>
+        <input type="text" class="form-control" id="descripcion" formControlName="descripcion" placeholder="Ingrese la descripción del gasto" required>
+        <div class="text-danger"
+          *ngIf="ingresoForm.get('descripcion')?.hasError('required') && ingresoForm.get('descripcion')?.touched">
+          <span>La descripción <strong>es obligatoria</strong></span>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="fecha">Fecha:</label>
+        <input type="date" class="form-control" formControlName="fecha" id="fecha" required>
+        <div class="text-danger"
+          *ngIf="ingresoForm.get('fecha')?.hasError('required') && ingresoForm.get('fecha')?.touched">
+          <span>La fecha <strong>es obligatoria</strong></span>
+        </div>
+      </div>
+      <button type="submit" class="btn btn-primary" [disabled]="ingresoForm.invalid">Guardar Cambios</button>
+      <button routerLink="/registro-ingresos" class="btn btn-secondary btn-lg float-start">VOLVER</button>
+    </form>
+  </div>
+  

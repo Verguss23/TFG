@@ -1,0 +1,44 @@
+<div class="container">
+    <h2>{{ titulo | uppercase }}</h2>
+    <form [formGroup]="gastoForm" (ngSubmit)="agregarGasto()">
+      <div class="form-group">
+        <label for="concepto">Concepto:</label>
+        <input type="text" class="form-control" id="concepto" formControlName="concepto" placeholder="Ingrese el concepto del gasto" required>
+        <div class="text-danger"
+          *ngIf="gastoForm.get('concepto')?.hasError('required') && gastoForm.get('concepto')?.touched">
+          <span>El nombre del concepto <strong>es obligatorio</strong></span>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="monto">Monto:</label>
+        <input type="number" class="form-control" id="monto" formControlName="monto" placeholder="Ingrese el monto del gasto" required>
+        <div class="text-danger"
+          *ngIf="gastoForm.get('monto')?.hasError('required') && gastoForm.get('monto')?.touched">
+          <span>La cantidad del monto <strong>es obligatoria</strong></span>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="fecha">Fecha:</label>
+        <input type="date" class="form-control" formControlName="fecha" id="fecha" required>
+        <div class="text-danger"
+          *ngIf="gastoForm.get('fecha')?.hasError('required') && gastoForm.get('fecha')?.touched">
+          <span>La fecha <strong>es obligatoria</strong></span>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="categoria">Categoría:</label>
+        <select class="form-control" id="categoria" formControlName="categoria" required>
+          <option value="Categoría 1">Categoría 1</option>
+          <option value="Categoría 2">Categoría 2</option>
+          <option value="Categoría 3">Categoría 3</option>
+        </select>
+        <div class="text-danger"
+          *ngIf="gastoForm.get('categoria')?.hasError('required') && gastoForm.get('categoria')?.touched">
+          <span>La categoría <strong>es obligatoria</strong></span>
+        </div>
+      </div>
+      <button type="submit" class="btn btn-primary" [disabled]="gastoForm.invalid">Guardar Cambios</button>
+      <button routerLink="/registro-gastos" class="btn btn-secondary btn-lg float-start">VOLVER</button>
+    </form>
+  </div>
+  

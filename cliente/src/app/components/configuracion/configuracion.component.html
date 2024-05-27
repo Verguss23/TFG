@@ -1,0 +1,96 @@
+<mat-toolbar color="primary">
+  <button mat-icon-button matTooltip="Menú desplegable de opciones" (click)="toggleSidenav()">
+    <i class="fa-solid fa-bars"></i>
+  </button>
+  <span matTooltip="Nombre de la empresa">FinanzasPro</span>
+  <span class="spacer"></span>
+  <button mat-icon-button class="center-btn" matTooltip="Botón para cerrar sesión" (click)="logout()">
+    <i class="fa-solid fa-right-from-bracket"></i>
+  </button>
+  <span class="date" matTooltip="Fecha y hora actual">{{ currentDate | date: 'medium' }}</span>
+</mat-toolbar>
+
+<mat-sidenav-container class="sidenav-container">
+  <mat-sidenav #sidenav mode="side" [opened]="isExpanded">
+    <mat-nav-list>
+      <a mat-list-item routerLink="/registro-gastos">Registro de Gastos</a>
+      <a mat-list-item routerLink="/registro-ingresos">Registro de Ingresos</a>
+      <a mat-list-item routerLink="/gestion-proveedores">Gestión de Proveedores</a>
+      <a mat-list-item routerLink="/gestion-clientes">Gestión de Clientes</a>
+      <a mat-list-item routerLink="/generar-reportes">Generar Reportes</a>
+      <a mat-list-item routerLink="/configuracion">Configuración de la Cuenta</a>
+    </mat-nav-list>
+  </mat-sidenav>
+
+  <mat-sidenav-content>
+    <div class="container">
+      <h3>Configuración de Usuarios</h3>
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col" matTooltip="El nombre del usuario">Nombre de Usuario</th>
+        <th scope="col" matTooltip="La contraseña del usuario">Contraseña</th>
+        <th scope="col" matTooltip="Diversas opciones para los campos">Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let usuario of listUsuarios">
+        <td>{{ usuario.username }}</td>
+        <td>{{ usuario.password }}</td>
+        <td>
+          <i [routerLink]="['/editar-usuario', usuario._id]" class="fa-solid fa-pen-to-square text-primary" id="editar" matTooltip="Editar el usuario"></i>
+          <i (click)="eliminarUsuario(usuario._id)" class="fa-solid fa-trash text-danger" id="borrar" matTooltip="Eliminar el usuario"></i>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<h5 style="text-align: start; margin-top: 10px;" *ngIf="listUsuarios.length == 0">No hay ingresos para mostrar</h5>
+
+    <hr>
+
+    <div class="container">
+      <h3>Opciones Adicionales</h3>
+      <form [formGroup]="configuracionForm" (ngSubmit)="guardarConfiguracion()">
+        <div class="form-group">
+          <label for="idioma">Idioma Preferido:</label>
+          <select class="form-control" id="idioma" formControlName="idioma">
+            <option value="es">Español</option>
+            <option value="en">English</option>
+          </select>
+        </div>
+        
+        <div class="form-group">
+          <label for="tamañoTexto">Tamaño del Texto:</label>
+          <select class="form-control" id="tamañoTexto" formControlName="tamañoTexto">
+            <option value="normal">Normal</option>
+            <option value="grande">Grande</option>
+            <option value="muy grande">Muy Grande</option>
+          </select>
+        </div>
+        
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" id="recibirNotificaciones" formControlName="recibirNotificaciones">
+          <label class="form-check-label" for="recibirNotificaciones">Recibir Notificaciones por Correo Electrónico</label>
+        </div>
+      
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" id="notificacionesEventos" formControlName="notificacionesEventos">
+          <label class="form-check-label" for="notificacionesEventos">Notificaciones de Eventos</label>
+        </div>
+      
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" id="temaOscuro" formControlName="temaOscuro">
+          <label class="form-check-label" for="temaOscuro">Tema Oscuro</label>
+        </div>
+        
+        <button type="submit" class="btn btn-primary">Guardar Configuración</button>
+      </form>
+      
+    </div>
+
+    <hr>
+
+ <app-footer></app-footer>
+  </mat-sidenav-content>
+</mat-sidenav-container>

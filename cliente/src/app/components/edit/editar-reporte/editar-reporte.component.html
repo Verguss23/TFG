@@ -1,0 +1,38 @@
+<div class="container">
+  <h2>{{ titulo | uppercase }}</h2>
+  <form [formGroup]="reporteForm" (ngSubmit)="agregarReporte()">
+    <div class="form-group">
+      <label for="tipo">Categoría:</label>
+        <select class="form-control" id="tipo" formControlName="tipo" required>
+          <option value="Reporte de Gastos">Reporte de Gastos</option>
+          <option value="Reporte de Ingresos">Reporte de Ingresos</option>
+          <option value="Reporte de Proveedores">Reporte de Proveedores</option>
+          <option value="Reporte de Clientes">Reporte de Clientes</option>
+        </select>
+        <div class="text-danger"
+          *ngIf="reporteForm.get('tipo')?.hasError('required') && reporteForm.get('tipo')?.touched">
+          <span>El tipo de reporte <strong>es obligatorio</strong></span>
+        </div>
+    </div>
+    <div class="form-group">
+      <label for="inicio">Fecha de Inicio:</label>
+      <input type="date" class="form-control" formControlName="inicio" id="inicio" required>
+      <div class="text-danger"
+          *ngIf="reporteForm.get('inicio')?.hasError('required') && reporteForm.get('inicio')?.touched">
+          <span>La fecha de inicio <strong>es obligatoria</strong></span>
+        </div>
+    </div>
+    <div class="form-group">
+      <label for="fin">Fecha de Fin:</label>
+      <input type="date" class="form-control" formControlName="fin" id="fin" required>
+      <div class="text-danger"
+          *ngIf="reporteForm.get('fin')?.hasError('required') && reporteForm.get('fin')?.touched">
+          <span>La fecha de fin <strong>es obligatoria</strong></span>
+        </div>
+    </div>
+    <button type="submit" class="btn btn-primary" [disabled]="reporteForm.invalid">Guardar Cambios</button>
+    <button routerLink="/generar-reportes" class="btn btn-secondary btn-lg float-start">VOLVER</button>
+  </form>
+</div>
+
+

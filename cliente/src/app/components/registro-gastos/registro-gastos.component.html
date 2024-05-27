@@ -1,0 +1,105 @@
+<mat-toolbar color="primary">
+  <button mat-icon-button matTooltip="Menú desplegable de opciones" (click)="toggleSidenav()">
+    <i class="fa-solid fa-bars"></i>
+  </button>
+  <span matTooltip="Nombre de la empresa">FinanzasPro</span>
+  <span class="spacer"></span>
+  <button mat-icon-button class="center-btn" matTooltip="Botón para cerrar sesión" (click)="logout()">
+    <i class="fa-solid fa-right-from-bracket"></i>
+  </button>
+  <span class="date" matTooltip="Fecha y hora actual">{{ currentDate | date: 'medium' }}</span>
+</mat-toolbar>
+
+<mat-sidenav-container class="sidenav-container">
+  <mat-sidenav #sidenav mode="side" [opened]="isExpanded">
+    <mat-nav-list>
+      <a mat-list-item routerLink="/registro-gastos">Registro de Gastos</a>
+      <a mat-list-item routerLink="/registro-ingresos">Registro de Ingresos</a>
+      <a mat-list-item routerLink="/gestion-proveedores">Gestión de Proveedores</a>
+      <a mat-list-item routerLink="/gestion-clientes">Gestión de Clientes</a>
+      <a mat-list-item routerLink="/generar-reportes">Generar Reportes</a>
+      <a mat-list-item routerLink="/configuracion">Configuración de la Cuenta</a>
+    </mat-nav-list>
+  </mat-sidenav>
+
+  <mat-sidenav-content>
+    
+<div class="container">
+  <h2 class="text-center">Registro de Gastos</h2>
+  <form [formGroup]="gastoForm"  (ngSubmit)="agregarGasto()">
+    <div class="form-group">
+      <label for="concepto">Concepto:</label>
+      <input type="text" class="form-control" id="concepto" formControlName="concepto" placeholder="Ingrese el concepto del gasto"  required>
+      <div class="text-danger"
+          *ngIf="gastoForm.get('concepto')?.hasError('required') && gastoForm.get('concepto')?.touched">
+          <span>El nombre del concepto <strong>es obligatorio</strong></span>
+        </div>
+    </div>
+    <div class="form-group">
+      <label for="monto">Monto:</label>
+      <input type="number" class="form-control" id="monto" formControlName="monto" placeholder="Ingrese el monto del gasto"  required>
+      <div class="text-danger"
+          *ngIf="gastoForm.get('monto')?.hasError('required') && gastoForm.get('monto')?.touched">
+          <span>La cantidad del monto <strong>es obligatoria</strong></span>
+        </div>
+    </div>
+    <div class="form-group">
+      <label for="fecha">Fecha:</label>
+      <input type="date" class="form-control" formControlName="fecha" id="fecha" required>
+      <div class="text-danger"
+          *ngIf="gastoForm.get('fecha')?.hasError('required') && gastoForm.get('fecha')?.touched">
+          <span>La fecha <strong>es obligatoria</strong></span>
+        </div>
+    </div>
+    <div class="form-group">
+      <label for="categoria">Categoría:</label>
+      <select class="form-control" id="categoria" formControlName="categoria" required>
+        <option value="Categoría 1">Categoría 1</option>
+        <option value="Categoría 2">Categoría 2</option>
+        <option value="Categoría 3">Categoría 3</option>
+      </select>
+      <div class="text-danger"
+          *ngIf="gastoForm.get('categoria')?.hasError('required') && gastoForm.get('categoria')?.touched">
+          <span>La categoría <strong>es obligatoria</strong></span>
+        </div>
+    </div>
+    <button type="submit" [disabled]="gastoForm.invalid" class="btn btn-primary">Registrar Gasto</button>
+  </form>
+</div>
+
+<hr>
+
+<div class="container">
+  <h2>Lista de Gastos</h2>
+  <table *ngIf="listGastos.length > 0" class="table">
+    <thead>
+      <tr>
+        <th scope="col" matTooltip="La descripción o explicación del gasto">Concepto</th>
+        <th scope="col" matTooltip="Valor o cantidad de dinero gastado en la transacción">Monto</th>
+        <th scope="col" matTooltip="Fecha en la que se realizó el gasto">Fecha</th>
+        <th scope="col" matTooltip="Clasificación o tipo de gasto que se está registrando">Categoría</th>
+        <th scope="col" matTooltip="Diversas opciones para los campos">Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let gasto of listGastos">
+        <td>{{ gasto.concepto }}</td>
+        <td>{{ gasto.monto }}</td>
+        <td>{{ gasto.fecha | date: 'dd/MM/yyyy' }}</td>
+        <td>{{ gasto.categoria }}</td>
+        <td>
+          <i [routerLink]="['/editar-gasto', gasto._id]" class="fa-solid fa-pen-to-square text-primary" id="editar" matTooltip="Editar el gasto"></i>
+          <i (click)="eliminarGasto(gasto._id)" class="fa-solid fa-trash text-danger" id="borrar" matTooltip="Eliminar el gasto"></i>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<h5 style="text-align: start; margin-top: 10px;" *ngIf="listGastos.length == 0">No hay gastos para mostrar</h5>
+
+<hr>
+
+<app-footer></app-footer>
+
+  </mat-sidenav-content>
+</mat-sidenav-container>

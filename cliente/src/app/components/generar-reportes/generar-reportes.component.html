@@ -1,0 +1,100 @@
+<mat-toolbar color="primary">
+  <button mat-icon-button matTooltip="Menú desplegable de opciones" (click)="toggleSidenav()">
+    <i class="fa-solid fa-bars"></i>
+  </button>
+  <span matTooltip="Nombre de la empresa">FinanzasPro</span>
+  <span class="spacer"></span>
+  <button mat-icon-button class="center-btn" matTooltip="Botón para cerrar sesión" (click)="logout()">
+    <i class="fa-solid fa-right-from-bracket"></i>
+  </button>
+  <span class="date" matTooltip="Fecha y hora actual">{{ currentDate | date: 'medium' }}</span>
+</mat-toolbar>
+
+<mat-sidenav-container class="sidenav-container">
+  <mat-sidenav #sidenav mode="side" [opened]="isExpanded">
+    <mat-nav-list>
+      <a mat-list-item routerLink="/registro-gastos">Registro de Gastos</a>
+      <a mat-list-item routerLink="/registro-ingresos">Registro de Ingresos</a>
+      <a mat-list-item routerLink="/gestion-proveedores">Gestión de Proveedores</a>
+      <a mat-list-item routerLink="/gestion-clientes">Gestión de Clientes</a>
+      <a mat-list-item routerLink="/generar-reportes">Generar Reportes</a>
+      <a mat-list-item routerLink="/configuracion">Configuración de la Cuenta</a>
+    </mat-nav-list>
+  </mat-sidenav>
+
+  <mat-sidenav-content>
+
+        <div class="container">
+          <div class="text-center mb-4">
+          <h2>Generar Reportes</h2>
+          <p>Selecciona las opciones para generar el reporte:</p>
+        </div>
+  
+            <form [formGroup]="reporteForm"  (ngSubmit)="agregarReporte()">
+              <div class="form-group">
+                <label for="tipo">Tipo de Reporte:</label>
+                <select class="form-control" id="tipo" formControlName="tipo" required>
+                  <option value="Reporte de Gastos">Reporte de Gastos</option>
+                  <option value="Reporte de Ingresos">Reporte de Ingresos</option>
+                  <option value="Reporte de Proveedores">Reporte de Proveedores</option>
+                  <option value="Reporte de Clientes">Reporte de Clientes</option>
+                </select>
+                <div class="text-danger"
+                    *ngIf="reporteForm.get('tipo')?.hasError('required') && reporteForm.get('tipo')?.touched">
+                    <span>El tipo de reporte <strong>es obligatorio</strong></span>
+                  </div>
+              </div>
+              <div class="form-group">
+                <label for="inicio">Fecha de Inicio:</label>
+                <input type="date" class="form-control" formControlName="inicio" id="inicio" required>
+                <div class="text-danger"
+                    *ngIf="reporteForm.get('inicio')?.hasError('required') && reporteForm.get('inicio')?.touched">
+                    <span>La fecha de inicio <strong>es obligatoria</strong></span>
+                  </div>
+              </div>
+              <div class="form-group">
+                <label for="fin">Fecha de Fin:</label>
+                <input type="date" class="form-control" formControlName="fin" id="fin" required>
+                <div class="text-danger"
+                    *ngIf="reporteForm.get('fin')?.hasError('required') && reporteForm.get('fin')?.touched">
+                    <span>La fecha de fin <strong>es obligatoria</strong></span>
+                  </div>
+              </div>
+              <button type="submit" [disabled]="reporteForm.invalid" class="btn btn-primary">Generar Reporte</button>
+            </form>
+        </div> 
+            <hr>
+
+            <div class="container">
+    <h2>Lista de Reportes</h2>
+    <table *ngIf="listReportes.length > 0" class="table">
+      <thead>
+        <tr>
+          <th scope="col" matTooltip="Clasificación de los reportes">Tipo de Reporte</th>
+          <th scope="col" matTooltip="La fecha del inicio del reporte">Fecha de Inicio</th>
+          <th scope="col" matTooltip="La fecha de finalización del reporte">Fecha de Fin</th>
+          <th scope="col" matTooltip="Diversas opciones para los campos">Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let reporte of listReportes">
+          <td>{{ reporte.tipo }}</td>
+          <td>{{ reporte.inicio | date: 'dd/MM/yyyy' }}</td>
+          <td>{{ reporte.fin | date: 'dd/MM/yyyy' }}</td>
+          <td>
+            <i [routerLink]="['/editar-reporte', reporte._id]" class="fa-solid fa-pen-to-square text-primary" id="editar" matTooltip="Editar el reporte"></i>
+            <i (click)="eliminarReporte(reporte._id)" class="fa-solid fa-trash text-danger" id="borrar" matTooltip="Eliminar el reporte"></i>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <h5 style="text-align: start; margin-top: 10px;" *ngIf="listReportes.length == 0">No hay ingresos para mostrar</h5>
+
+  <hr>
+
+  <app-footer></app-footer>
+    
+</mat-sidenav-content>
+</mat-sidenav-container>  
+  
